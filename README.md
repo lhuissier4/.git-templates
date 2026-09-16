@@ -1,8 +1,8 @@
 # Installation
 ```bash
-cd .git-templates
+cd "$HOME/.git-templates"
 ```
 Configurer le template global : 
 ```bash
-git config --global init.templateDir .
+git config --global init.templateDir "$HOME/.git-templates"
 ```
