@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+/home/tux/.git-templates/hooks/config_git_hook.sh
