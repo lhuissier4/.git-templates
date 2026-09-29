@@ -58,3 +58,16 @@ elif ! jq -e --arg key "$COPILOT_MAGIC_COMMIT_KEY" 'has($key)' "$VSCODE_SETTINGS
     mv "$TMP_SETTINGS" "$VSCODE_SETTINGS_FILE"
     echo "Clé ajoutée dans $VSCODE_SETTINGS_FILE : $COPILOT_MAGIC_COMMIT_KEY"
 fi
+
+
+if ! grep -q "^# Initialisation des hooks Git$" README.md 2>/dev/null; then
+    cat >> README.md <<EOF
+# Initialisation des hooks Git
+Pour initialiser les hooks, executez la commande suivante :
+\`\`\`bash
+git config core.hooksPath "$GIT_HOOKS_FOLDER"
+\`\`\`
+EOF
+    echo "Section ajoutée dans README.md : Initialisation des hooks Git"
+fi
+
