@@ -18,6 +18,10 @@ if [[ ! -f "$GIT_HOOKS_FOLDER/commit-msg" ]]; then
     mkdir -p "$GIT_HOOKS_FOLDER"
     cp "$GIT_GLOBAL_TEMPLATE/commit-msg" "$GIT_HOOKS_FOLDER/commit-msg"
 fi
+if [[ ! -f "$GIT_HOOKS_FOLDER/pre-push" ]]; then
+    mkdir -p "$GIT_HOOKS_FOLDER"
+    cp "$GIT_GLOBAL_TEMPLATE/pre-push" "$GIT_HOOKS_FOLDER/pre-push"
+fi
 git config core.hooksPath "$GIT_HOOKS_FOLDER"
 echo "Hooks Git configurés : core.hooksPath = $GIT_HOOKS_FOLDER"
 
