@@ -37,6 +37,32 @@ if [[ ! -f "$COMMIT_INSTRUCTIONS_FILE" ]]; then
     echo "Fichier créé : $COMMIT_INSTRUCTIONS_FILE"
 fi
 
+if [[ ! -f "$VSCODE_SETTINGS_FILE" ]]; then
+    mkdir -p "$VSCODE_DIR"
+    cat > "$VSCODE_SETTINGS_FILE" <<EOF
+{
+    "$COPILOT_MAGIC_COMMIT_KEY": [
+        {
+        "file": "$COMMIT_INSTRUCTIONS_FILE"
+        }
+    ]
+}
+EOF
+    echo "Fichier créé : $VSCODE_SETTINGS_FILE"
+elif ! jq -e --arg key "$COPILOT_MAGIC_COMMIT_KEY" 'has($key)' "$VSCODE_SETTINGS_FILE" >/dev/null 2>&1; then
+    TMP_SETTINGS="$(mktemp)"
+    jq --arg key "$COPILOT_MAGIC_COMMIT_KEY" --arg file "$COMMIT_INSTRUCTIONS_FILE" \
+        '.[$key] = [{"file": $file}]' \
+        "$VSCODE_SETTINGS_FILE" > "$TMP_SETTINGS"
+    mv "$TMP_SETTINGS" "$VSCODE_SETTINGS_FILE"
+    echo "Clé ajoutée dans $VSCODE_SETTINGS_FILE : $COPILOT_MAGIC_COMMIT_KEY"
+fi
+
+if [[ ! -f "kilo.jsonc" ]]; then
+    cp "$GIT_GLOBAL_TEMPLATE/kilo.jsonc" "kilo.jsonc"
+    echo "Fichier kilo.jsonc copié"
+fi
+
 if ! command -v jq >/dev/null 2>&1; then
     echo "Erreur : jq est requis pour configurer $VSCODE_SETTINGS_FILE." >&2
     exit 1
@@ -73,5 +99,17 @@ git config core.hooksPath "$GIT_HOOKS_FOLDER"
 \`\`\`
 EOF
     echo "Section ajoutée dans README.md : Initialisation des hooks Git"
+fi
+
+if ! grep -q "^# Configuration Kilo" README.md 2>/dev/null; then
+    cat >> README.md <<EOF
+# Configuration Kilo
+Le fichier `kilo.jsonc` est automatiquement copié dans le projet pour configurer Kilo.
+Pour voir la configuration actuelle, exécutez :
+\`\`\`bash
+cat kilo.jsonc
+\`\`\`
+EOF
+    echo "Section ajoutée dans README.md : Configuration Kilo"
 fi
 
