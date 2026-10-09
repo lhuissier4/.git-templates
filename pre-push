@@ -20,10 +20,14 @@ while read -r local_ref local_oid remote_ref remote_oid; do
     fi
 done
 
+run_tests() {
+    # Placez ici les commandes pour exécuter vos tests, par exemple :
+    # npm test
+    :
+}
+
 echo "Exécution des tests avant le push..."
-# Placez ici les commandes pour exécuter vos tests, par exemple :
-# npm test
-if [[ $? -ne 0 ]]; then
+if ! run_tests; then
     echo
     echo "Tests échoués. Push annulé." >&2
     exit 1

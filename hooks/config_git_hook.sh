@@ -80,7 +80,7 @@ fi
 if ! grep -q "^# Configuration Kilo" README.md 2>/dev/null; then
     cat >> README.md <<EOF
 # Configuration Kilo
-Le fichier `kilo.jsonc` est automatiquement copié dans le projet pour configurer Kilo.
+Le fichier \`kilo.jsonc\` est automatiquement copié dans le projet pour configurer Kilo.
 Pour voir la configuration actuelle, exécutez :
 \`\`\`bash
 cat kilo.jsonc
