@@ -23,6 +23,9 @@ if [[ ! -f "$GIT_HOOKS_FOLDER/pre-push" ]]; then
     cp "$GIT_GLOBAL_TEMPLATE/pre-push" "$GIT_HOOKS_FOLDER/pre-push"
 fi
 git config core.hooksPath "$GIT_HOOKS_FOLDER"
+
+# Donner les droits d'exécution aux fichiers hooks
+chmod a+x "$GIT_HOOKS_FOLDER"/* 2>/dev/null || true
 echo "Hooks Git configurés : core.hooksPath = $GIT_HOOKS_FOLDER"
 
 GITHUB_DIR=".github"
