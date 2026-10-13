@@ -69,7 +69,7 @@ fi
 if ! grep -q "^# Initialisation des hooks Git$" README.md 2>/dev/null; then
     cat >> README.md <<EOF
 # Initialisation des hooks Git
-Pour initialiser les hooks, executez la commande suivante :
+Pour initialiser les hooks, exécutez la commande suivante :
 \`\`\`bash
 git config core.hooksPath "$GIT_HOOKS_FOLDER"
 \`\`\`
