@@ -12,9 +12,10 @@ git config --global alias.st status
 # TODO: ajouter les autres alias
 chmod a+x "${GIT_TEMPLATES}/scripts/git-open.sh"
 chmod a+x "${GIT_TEMPLATES}/scripts/git-switch-branch.sh"
+chmod a+x "${GIT_TEMPLATES}/scripts/git-hooks.sh"
 
 git config --global alias.open "!bash ${GIT_TEMPLATES}/scripts/git-open.sh"
 git config --global alias.sw "!bash ${GIT_TEMPLATES}/scripts/git-switch-branch.sh"
+git config --global alias.hooks "!bash ${GIT_TEMPLATES}/scripts/git-hooks.sh"
 
 # git skills
-# git hooks ...
