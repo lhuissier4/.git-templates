@@ -6,7 +6,7 @@ BRANCH=$1
 REMOTE=origin
 
 if [ -z "$BRANCH" ]; then
-  echo "Usage: $0 <nom-de-branche>" >&2
+  echo "Usage: git sw <nom-de-branche>" >&2
   exit 1
 fi
 
