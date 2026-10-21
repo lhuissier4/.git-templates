@@ -40,6 +40,7 @@ README="$GIT_ROOT/README.md"
 
 if ! grep -q "^# Initialisation des hooks Git$" "$README" 2>/dev/null; then
   cat >> "$README" <<EOF
+
 # Initialisation des hooks Git
 Pour initialiser les hooks, exécutez la commande suivante :
 \`\`\`bash
