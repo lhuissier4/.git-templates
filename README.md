@@ -8,7 +8,7 @@ git clone https://github.com/lhuissier4/.git-templates.git
 git config --global init.templateDir "$HOME/.git-templates"
 ```
 
-Pour créer les alias git, éxécutez le fichier suivant :
+Pour créer les alias git, exécutez le fichier suivant :
 ```bash
 ./git-set-alias.sh
 ```

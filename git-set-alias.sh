@@ -7,6 +7,7 @@ GIT_TEMPLATES="$(git rev-parse --show-toplevel 2>/dev/null)" || {
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci 'commit -m'
+git config --global alias.cia 'commit --amend -m'
 git config --global alias.st status
 
 # TODO: ajouter les autres alias
