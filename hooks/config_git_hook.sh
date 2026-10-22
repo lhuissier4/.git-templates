@@ -16,11 +16,11 @@ fi
 
 if [[ ! -f "$GIT_HOOKS_FOLDER/commit-msg" ]]; then
     mkdir -p "$GIT_HOOKS_FOLDER"
-    cp "$GIT_GLOBAL_TEMPLATE/commit-msg" "$GIT_HOOKS_FOLDER/commit-msg"
+    cp "$GIT_GLOBAL_TEMPLATE/hooks/commit-msg" "$GIT_HOOKS_FOLDER/commit-msg"
 fi
 if [[ ! -f "$GIT_HOOKS_FOLDER/pre-push" ]]; then
     mkdir -p "$GIT_HOOKS_FOLDER"
-    cp "$GIT_GLOBAL_TEMPLATE/pre-push" "$GIT_HOOKS_FOLDER/pre-push"
+    cp "$GIT_GLOBAL_TEMPLATE/config/pre-push" "$GIT_HOOKS_FOLDER/pre-push"
 fi
 git config core.hooksPath "$GIT_HOOKS_FOLDER"
 
@@ -36,7 +36,7 @@ COPILOT_MAGIC_COMMIT_KEY="github.copilot.chat.commitMessageGeneration.instructio
 
 if [[ ! -f "$COMMIT_INSTRUCTIONS_FILE" ]]; then
     mkdir -p "$GITHUB_DIR"
-    cp "$GIT_GLOBAL_TEMPLATE/git-commit-instructions.md" "$COMMIT_INSTRUCTIONS_FILE"
+    cp "$GIT_GLOBAL_TEMPLATE/config/git-commit-instructions.md" "$COMMIT_INSTRUCTIONS_FILE"
     echo "Fichier créé : $COMMIT_INSTRUCTIONS_FILE"
 fi
 
@@ -62,7 +62,7 @@ elif ! jq -e --arg key "$COPILOT_MAGIC_COMMIT_KEY" 'has($key)' "$VSCODE_SETTINGS
 fi
 
 if [[ ! -f "kilo.jsonc" ]]; then
-    cp "$GIT_GLOBAL_TEMPLATE/kilo.jsonc" "kilo.jsonc"
+    cp "$GIT_GLOBAL_TEMPLATE/config/kilo.jsonc" "kilo.jsonc"
     echo "Fichier kilo.jsonc copié"
 fi
 

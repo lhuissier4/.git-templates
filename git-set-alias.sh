@@ -13,9 +13,13 @@ git config --global alias.st status
 chmod a+x "${GIT_TEMPLATES}/scripts/git-open.sh"
 chmod a+x "${GIT_TEMPLATES}/scripts/git-switch-branch.sh"
 chmod a+x "${GIT_TEMPLATES}/scripts/git-hooks.sh"
+chmod a+x "${GIT_TEMPLATES}/scripts/auto-commit.sh"
 
 git config --global alias.open "!bash ${GIT_TEMPLATES}/scripts/git-open.sh"
 git config --global alias.sw "!bash ${GIT_TEMPLATES}/scripts/git-switch-branch.sh"
 git config --global alias.hooks "!bash ${GIT_TEMPLATES}/scripts/git-hooks.sh"
 
 # git skills
+
+# configuration des commits automatiques
+git config --global alias.autoci "!bash ${GIT_TEMPLATES}/scripts/auto-commit.sh"

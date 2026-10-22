@@ -21,13 +21,14 @@ else
   echo "Dossier créé : $TARGET_DIR"
 fi
 
-for hook in commit-msg pre-push; do
-  if ! cp "$TEMPLATES_DIR/$hook" "$TARGET_DIR/$hook"; then
-    echo "Erreur : impossible de copier $hook." >&2
+for hook in hooks/commit-msg config/pre-push; do
+  name=$(basename "$hook")
+  if ! cp "$TEMPLATES_DIR/$hook" "$TARGET_DIR/$name"; then
+    echo "Erreur : impossible de copier $name." >&2
     exit 1
   fi
-  chmod +x "$TARGET_DIR/$hook"
-  echo "Importé : $TARGET_DIR/$hook"
+  chmod +x "$TARGET_DIR/$name"
+  echo "Importé : $TARGET_DIR/$name"
 done
 
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || {
