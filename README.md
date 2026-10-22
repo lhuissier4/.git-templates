@@ -10,6 +10,7 @@ git config --global init.templateDir "$HOME/.git-templates"
 
 Pour créer les alias git, exécutez le fichier suivant :
 ```bash
+cd "$HOME/.git-templates"
 ./git-set-alias.sh
 ```
 # Initialisation des hooks Git
