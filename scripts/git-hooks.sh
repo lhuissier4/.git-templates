@@ -21,7 +21,7 @@ else
   echo "Dossier créé : $TARGET_DIR"
 fi
 
-for hook in hooks/commit-msg config/pre-push; do
+for hook in hooks/commit-msg config_files/pre-push; do
   name=$(basename "$hook")
   if ! cp "$TEMPLATES_DIR/$hook" "$TARGET_DIR/$name"; then
     echo "Erreur : impossible de copier $name." >&2

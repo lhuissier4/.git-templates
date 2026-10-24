@@ -14,7 +14,7 @@ KILO_FILE="$GIT_ROOT/kilo.jsonc"
 README="$GIT_ROOT/README.md"
 
 if [ ! -f "$KILO_FILE" ]; then
-  if ! cp "$TEMPLATES_DIR/config/kilo.jsonc" "$KILO_FILE"; then
+  if ! cp "$TEMPLATES_DIR/config_files/kilo.jsonc" "$KILO_FILE"; then
     echo "Erreur : impossible de copier kilo.jsonc." >&2
     exit 1
   fi

@@ -20,7 +20,7 @@ COPILOT_MAGIC_COMMIT_KEY="github.copilot.chat.commitMessageGeneration.instructio
 
 if [[ ! -f "$COMMIT_INSTRUCTIONS_FILE" ]]; then
     mkdir -p "$GITHUB_DIR"
-    cp "$GIT_TEMPLATES/config/git-commit-instructions.md" "$COMMIT_INSTRUCTIONS_FILE"
+    cp "$GIT_TEMPLATES/config_files/git-commit-instructions.md" "$COMMIT_INSTRUCTIONS_FILE"
     echo "Fichier créé : $COMMIT_INSTRUCTIONS_FILE"
 fi
 
