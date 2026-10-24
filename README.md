@@ -13,6 +13,10 @@ Pour créer les alias git, exécutez le fichier suivant :
 cd "$HOME/.git-templates"
 ./git-set-alias.sh
 ```
+Pour ne plus utiliser vi par défaut :
+```bash
+git config --global core.editor "nano"
+```
 
 # Alias Git
 

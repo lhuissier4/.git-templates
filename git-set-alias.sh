@@ -9,7 +9,7 @@ git config --global alias.br branch
 git config --global alias.ci 'commit -m'
 git config --global alias.cia 'commit --amend -m'
 git config --global alias.st status
-git config --global alias.last 'log -1 HEAD'
+git config --global alias.last '!git --no-pager log -1 HEAD'
 
 chmod a+x "${GIT_TEMPLATES}/scripts/git-open.sh"
 chmod a+x "${GIT_TEMPLATES}/scripts/git-switch-branch.sh"
