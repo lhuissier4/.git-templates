@@ -41,6 +41,7 @@ git config --global core.editor "nano"
 | `git autoci` | `scripts/auto-commit.sh` | Configure la génération automatique des messages de commit : copie `.github/git-commit-instructions.md` et déclare l'instruction Copilot dans `.vscode/settings.json` (nécessite `jq`). |
 | `git kilo` | `scripts/git-kilo.sh` | Copie `kilo.jsonc` à la racine du projet et ajoute une section « Configuration Kilo » au README. |
 | `git cial` | `scripts/git-commit-amend-last-msg.sh` | Refait un `commit --amend` en réutilisant le message du dernier commit (utile pour inclure des fichiers indexés sans retaper le message). Les options supplémentaires sont transmises à `git commit`. |
+| `git lasts [n]` | `scripts/git-lasts-commit.sh` | Affiche les `n` derniers commits (5 par défaut). |
 # Initialisation des hooks Git
 Pour initialiser les hooks, exécutez la commande suivante :
 ```bash

@@ -17,6 +17,7 @@ chmod a+x "${GIT_TEMPLATES}/scripts/git-hooks.sh"
 chmod a+x "${GIT_TEMPLATES}/scripts/auto-commit.sh"
 chmod a+x "${GIT_TEMPLATES}/scripts/git-kilo.sh"
 chmod a+x "${GIT_TEMPLATES}/scripts/git-commit-amend-last-msg.sh"
+chmod a+x "${GIT_TEMPLATES}/scripts/git-lasts-commit.sh"
 
 git config --global alias.open "!bash ${GIT_TEMPLATES}/scripts/git-open.sh"
 git config --global alias.sw "!bash ${GIT_TEMPLATES}/scripts/git-switch-branch.sh"
@@ -24,5 +25,6 @@ git config --global alias.hooks "!bash ${GIT_TEMPLATES}/scripts/git-hooks.sh"
 git config --global alias.autoci "!bash ${GIT_TEMPLATES}/scripts/auto-commit.sh"
 git config --global alias.kilo "!bash ${GIT_TEMPLATES}/scripts/git-kilo.sh"
 git config --global alias.cial "!bash ${GIT_TEMPLATES}/scripts/git-commit-amend-last-msg.sh"
+git config --global alias.lasts "!bash ${GIT_TEMPLATES}/scripts/git-lasts-commit.sh"
 
 # git skills
