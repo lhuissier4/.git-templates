@@ -4,35 +4,43 @@ GIT_TEMPLATES="$(git rev-parse --show-toplevel 2>/dev/null)" || {
     exit 1
 }
 
-# create_alias <alias> <commande> [is_file]
-# is_file=true : <commande> est un script relatif à GIT_TEMPLATES, rendu exécutable puis lancé avec bash.
+# create_alias <alias> <commande>
+# Si <commande> se termine par .sh, c'est un chemin de script : rendu exécutable puis lancé avec bash.
 create_alias() {
     local alias_name="$1"
     local command="$2"
-    local is_bash_file="${3:-false}"
-    
-    if [[ "$is_bash_file" == "true" ]]; then
-        chmod a+x "${GIT_TEMPLATES}/${command}"
+
+    if [[ "$command" == *.sh ]]; then
+        chmod a+x "${command}"
         git config --global "alias.${alias_name}" "!bash ${command}"
     else
         git config --global "alias.${alias_name}" "${command}"
     fi
 }
 
-create_alias sw ${GIT_TEMPLATES}/scripts/git-switch-branch.sh true
-create_alias co checkout false
-create_alias br branch false
-create_alias ci 'commit -m' false
-create_alias cia 'commit --amend -m' false
-create_alias cial ${GIT_TEMPLATES}/scripts/git-commit-amend-last-msg.sh true
-create_alias st status false
-create_alias open ${GIT_TEMPLATES}/scripts/git-open.sh true
-create_alias last '!git --no-pager log -1 HEAD' false
-create_alias lasts ${GIT_TEMPLATES}/scripts/git-lasts-commit.sh true
-create_alias hooks ${GIT_TEMPLATES}/scripts/git-hooks.sh true
-create_alias autoci ${GIT_TEMPLATES}/scripts/auto-commit.sh true
-create_alias kilo ${GIT_TEMPLATES}/scripts/git-kilo.sh true
+# Supprime tous les alias du git config global.
+remove_all_aliases() {
+    local key
+    while IFS= read -r key; do
+        git config --global --unset-all "$key"
+    done < <(git config --global --name-only --get-regexp '^alias\.')
+}
 
+remove_all_aliases
 
+create_alias sw ${GIT_TEMPLATES}/scripts/git-switch-branch.sh
+create_alias co checkout
+create_alias br branch
+create_alias ci 'commit -m'
+create_alias cia 'commit --amend -m'
+create_alias cial ${GIT_TEMPLATES}/scripts/git-commit-amend-last-msg.sh
+create_alias st status
+create_alias open ${GIT_TEMPLATES}/scripts/git-open.sh
+create_alias last '!git --no-pager log -1 HEAD'
+create_alias lasts ${GIT_TEMPLATES}/scripts/git-lasts-commit.sh
+create_alias hooks ${GIT_TEMPLATES}/scripts/git-hooks.sh
+create_alias autoci ${GIT_TEMPLATES}/scripts/auto-commit.sh
+create_alias kilo ${GIT_TEMPLATES}/scripts/git-kilo.sh
+create_alias print-all-aliases '!git --no-pager config --get-regexp '^alias\.''
 
 # git skills
