@@ -5,6 +5,14 @@ set -euo pipefail
 commit_message_file="$1"
 commit_message="$(head -n 1 "$commit_message_file")"
 
+# Préfixe les messages de fusion avec le type Conventional Commit attendu.
+if [[ "$commit_message" == Merge\ * ]]; then
+    updated_message="chore: $commit_message"
+    { printf '%s\n' "$updated_message"; tail -n +2 "$commit_message_file"; } > "${commit_message_file}.tmp"
+    mv "${commit_message_file}.tmp" "$commit_message_file"
+    commit_message="$updated_message"
+fi
+
 # Types supportés par la convention Angular / Conventional Commits
 allowed_types=(
     "build"     # Système de build / dépendances externes (npm, Docker...)
