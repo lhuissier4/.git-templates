@@ -45,14 +45,14 @@ add_source_line() {
 remove_all_aliases
 
 # En fin de fichier, donc après compinit dans le .zshrc.
-add_source_line "${HOME}/.bashrc" "${GIT_TEMPLATES}/scripts/git-switch-auto-complet.sh"
-add_source_line "${HOME}/.zshrc" "${GIT_TEMPLATES}/scripts/git-switch-auto-complet.sh"
+add_source_line "${HOME}/.bashrc" "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
+add_source_line "${HOME}/.zshrc" "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
 
 create_alias sw ${GIT_TEMPLATES}/scripts/git-switch-branch.sh
-chmod a+x "${GIT_TEMPLATES}/scripts/git-switch-auto-complet.sh"
+chmod a+x "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
 
 create_alias co checkout
-create_alias br '!git --no-pager branch'
+create_alias br ${GIT_TEMPLATES}/scripts/print-all-branch.sh
 create_alias ci 'commit -m'
 create_alias cia 'commit --amend -m'
 create_alias cial ${GIT_TEMPLATES}/scripts/git-commit-amend-last-msg.sh

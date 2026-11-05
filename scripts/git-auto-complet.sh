@@ -1,7 +1,7 @@
 #!/bin/bash
 # Autocomplétion bash/zsh des branches pour `git sw` (scripts/git-switch-branch.sh).
 # À sourcer depuis ~/.bashrc ou ~/.zshrc (après compinit pour zsh) :
-#   source ~/.git-templates/scripts/git-switch-auto-complet.sh
+#   source ~/.git-templates/scripts/git-auto-complet.sh
 # Couleurs : jaune/marron = locale uniquement, rouge = distante uniquement, vert = locale et distante.
 
 __GSW_REMOTE=origin
@@ -76,7 +76,19 @@ if [ -n "$ZSH_VERSION" ]; then
     return ret
   }
 
-  zstyle ':completion:*:*:git:*' user-commands sw:'bascule sur une branche (locale ou distante)'
+  # Nom reconnu par le _git de zsh pour la sous-commande `git br`.
+  _git-br() {
+    if (( CURRENT == 3 )) && [[ "$PREFIX" != -* ]]; then
+      local -a cmds=('all:liste toutes les branches (locales et distantes)')
+      _describe -t commands 'commande br' cmds
+    else
+      _git-branch
+    fi
+  }
+
+  zstyle ':completion:*:*:git:*' user-commands \
+    sw:'bascule sur une branche (locale ou distante)' \
+    br:'liste les branches (all : locales et distantes)'
   zstyle ':completion:*:gsw-*' group-name ''
   zstyle ':completion:*:gsw-local' list-colors '=*=33'
   zstyle ':completion:*:gsw-remote' list-colors '=*=31'
@@ -149,6 +161,17 @@ _git_sw() {
   printf '%s%s' "${PS1@P}" "$COMP_LINE"
   (( ${#COMP_LINE} > COMP_POINT )) && printf '\033[%dD' $(( ${#COMP_LINE} - COMP_POINT ))
   return 0
+}
+
+# Appelée par git-completion.bash pour `git br`.
+_git_br() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  if (( COMP_CWORD == 2 )) && [[ "$cur" != -* ]]; then
+    COMPREPLY=()
+    [[ "all" == "$cur"* ]] && COMPREPLY=("all ")
+  elif declare -F _git_branch >/dev/null; then
+    _git_branch
+  fi
 }
 
 complete -o nospace -F _git_sw git-switch-branch.sh
