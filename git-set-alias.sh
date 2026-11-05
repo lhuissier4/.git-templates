@@ -57,6 +57,7 @@ create_alias ci 'commit -m'
 create_alias cia 'commit --amend -m'
 create_alias cial ${GIT_TEMPLATES}/scripts/git-commit-amend-last-msg.sh
 create_alias st status
+create_alias save '!f() { git stash push --staged -m "$1" && git stash apply --index; }; f'
 create_alias open ${GIT_TEMPLATES}/scripts/git-open.sh
 create_alias last '!git --no-pager log -1 HEAD'
 create_alias lasts ${GIT_TEMPLATES}/scripts/git-lasts-commit.sh
