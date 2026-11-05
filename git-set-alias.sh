@@ -26,11 +26,33 @@ remove_all_aliases() {
     done < <(git config --global --name-only --get-regexp '^alias\.')
 }
 
+# add_source_line <fichier rc> <script> : ajoute `source <script>` s'il n'y est pas déjà.
+add_source_line() {
+    local rc_file="$1"
+    local script="$2"
+
+    if [[ ! -f "$rc_file" ]]; then
+        echo "Ignoré : $rc_file n'existe pas."
+        return
+    fi
+    if grep -qF "source ${script}" "$rc_file"; then
+        return
+    fi
+    printf '\n# Autocomplétion des branches pour git sw\nsource %s\n' "$script" >> "$rc_file"
+    echo "Ajouté dans $rc_file : source ${script}"
+}
+
 remove_all_aliases
 
+# En fin de fichier, donc après compinit dans le .zshrc.
+add_source_line "${HOME}/.bashrc" "${GIT_TEMPLATES}/scripts/git-switch-auto-complet.sh"
+add_source_line "${HOME}/.zshrc" "${GIT_TEMPLATES}/scripts/git-switch-auto-complet.sh"
+
 create_alias sw ${GIT_TEMPLATES}/scripts/git-switch-branch.sh
+chmod a+x "${GIT_TEMPLATES}/scripts/git-switch-auto-complet.sh"
+
 create_alias co checkout
-create_alias br branch
+create_alias br '!git --no-pager branch'
 create_alias ci 'commit -m'
 create_alias cia 'commit --amend -m'
 create_alias cial ${GIT_TEMPLATES}/scripts/git-commit-amend-last-msg.sh
