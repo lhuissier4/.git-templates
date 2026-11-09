@@ -1,4 +1,8 @@
 #!/bin/bash
+if [[ "$1" == "all" ]]; then
+  exec bash "$(dirname "${BASH_SOURCE[0]}")/git-open-all.sh"
+fi
+
 GITLAB_REPO_URL=$(git config --get remote.origin.url)
 case "$GITLAB_REPO_URL" in
   ssh://*)
@@ -20,5 +24,9 @@ case "$GITLAB_REPO_URL" in
     ;;
 esac
 HTTPS_GITLAB_URL=${HTTPS_GITLAB_URL%.git}
+if [[ "$1" == "--url" ]]; then
+  printf '%s\n' "$HTTPS_GITLAB_URL"
+  exit
+fi
 echo "Ouverture du repo git : $HTTPS_GITLAB_URL"
 xdg-open "$HTTPS_GITLAB_URL" >/dev/null 2>&1

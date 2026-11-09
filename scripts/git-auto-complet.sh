@@ -86,6 +86,13 @@ if [ -n "$ZSH_VERSION" ]; then
     fi
   }
 
+  _git-open() {
+    if (( CURRENT == 2 )) && [[ "$PREFIX" != -* ]]; then
+      local -a cmds=('all:ouvre toutes les URL du projet')
+      _describe -t commands 'commande open' cmds
+    fi
+  }
+
   # Nom reconnu par le _git de zsh pour la sous-commande `git rmb` : branches locales uniquement.
   _git-rmb() {
     local -a lonly both ldisp bdisp expl
@@ -111,6 +118,7 @@ if [ -n "$ZSH_VERSION" ]; then
   zstyle ':completion:*:*:git:*' user-commands \
     sw:'bascule sur une branche (locale ou distante)' \
     br:'liste les branches (all : locales et distantes)' \
+    open:'ouvre le dépôt distant ou toutes les URL du projet' \
     rmb:'supprime une branche locale'
   zstyle ':completion:*:gsw-*' group-name ''
   zstyle ':completion:*:gsw-local' list-colors '=*=33'
@@ -202,6 +210,14 @@ _git_br() {
     [[ "all" == "$cur"* ]] && COMPREPLY=("all ")
   elif declare -F _git_branch >/dev/null; then
     _git_branch
+  fi
+}
+
+_git_open() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=()
+  if (( COMP_CWORD == 2 )) && [[ "all" == "$cur"* ]]; then
+    COMPREPLY=("all ")
   fi
 }
 

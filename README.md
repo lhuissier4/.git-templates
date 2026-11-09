@@ -36,6 +36,7 @@ git config --global core.editor "nano"
 | Alias | Script | Description |
 |-------|--------|-------------|
 | `git open` | `scripts/git-open.sh` | Ouvre le dépôt distant (`origin`) dans le navigateur. Convertit les URL SSH en URL HTTPS. |
+| `git open all` | `scripts/git-open-all.sh` | Ouvre chaque URL du fichier `.git-open-all` à la racine du projet. Le fichier est créé avec l'URL de `origin` si nécessaire et ajouté au `.gitignore`. |
 | `git sw <branche>` | `scripts/git-switch-branch.sh` | Bascule sur la branche : locale si elle existe, sinon la récupère depuis `origin`, sinon propose de la créer. |
 | `git hooks` | `scripts/git-hooks.sh` | À lancer à la racine d'un projet : crée le dossier `git-hooks`, y copie `commit-msg` et `pre-push`, configure `core.hooksPath` et ajoute la section correspondante au README du projet. |
 | `git autoci` | `scripts/auto-commit.sh` | Configure la génération automatique des messages de commit : copie `.github/git-commit-instructions.md` et déclare l'instruction Copilot dans `.vscode/settings.json` (nécessite `jq`). |
