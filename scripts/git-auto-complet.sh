@@ -86,9 +86,32 @@ if [ -n "$ZSH_VERSION" ]; then
     fi
   }
 
+  # Nom reconnu par le _git de zsh pour la sous-commande `git rmb` : branches locales uniquement.
+  _git-rmb() {
+    local -a lonly both ldisp bdisp expl
+    local t n d ret=1 head
+    head=$(git symbolic-ref --short -q HEAD 2>/dev/null)
+    while IFS=$'\t' read -r t n; do
+      if [[ "$n" == "$head" ]]; then d="* $n"; else d="  $n"; fi
+      case "$t" in
+        L) lonly+=("$n"); ldisp+=("$d") ;;
+        B) both+=("$n"); bdisp+=("$d") ;;
+      esac
+    done < <(__gsw_branches)
+
+    _tags gsw-both gsw-local
+    while _tags; do
+      _requested -V gsw-both expl 'branches locales et distantes' compadd -d bdisp -a both && ret=0
+      _requested -V gsw-local expl 'branches locales uniquement' compadd -d ldisp -a lonly && ret=0
+      (( ret )) || break
+    done
+    return ret
+  }
+
   zstyle ':completion:*:*:git:*' user-commands \
     sw:'bascule sur une branche (locale ou distante)' \
-    br:'liste les branches (all : locales et distantes)'
+    br:'liste les branches (all : locales et distantes)' \
+    rmb:'supprime une branche locale'
   zstyle ':completion:*:gsw-*' group-name ''
   zstyle ':completion:*:gsw-local' list-colors '=*=33'
   zstyle ':completion:*:gsw-remote' list-colors '=*=31'
@@ -101,8 +124,9 @@ if [ -n "$ZSH_VERSION" ]; then
 fi
 
 # ---------------------------------------------------------------- bash
-# Appelée par git-completion.bash pour `git sw` ; utilisable aussi seule via `complete -F`.
-_git_sw() {
+# Complétion colorée générique ; $1 = fonction qui liste "<type>\t<branche>".
+__gsw_complete() {
+  local lister="$1"
   local cur="${COMP_WORDS[COMP_CWORD]}"
   local -a names types
   local t n
@@ -112,7 +136,7 @@ _git_sw() {
     [[ "$n" == "$cur"* ]] || continue
     types+=("$t")
     names+=("$n")
-  done < <(__gsw_branches)
+  done < <("$lister")
 
   (( ${#names[@]} == 0 )) && return
 
@@ -162,6 +186,13 @@ _git_sw() {
   (( ${#COMP_LINE} > COMP_POINT )) && printf '\033[%dD' $(( ${#COMP_LINE} - COMP_POINT ))
   return 0
 }
+
+# Appelée par git-completion.bash pour `git sw` ; utilisable aussi seule via `complete -F`.
+_git_sw() { __gsw_complete __gsw_branches; }
+
+# Branches locales uniquement (jaune : locale, vert : locale et distante).
+__gsw_local_branches() { __gsw_branches | awk -F '\t' '$1 != "R"'; }
+_git_rmb() { __gsw_complete __gsw_local_branches; }
 
 # Appelée par git-completion.bash pour `git br`.
 _git_br() {

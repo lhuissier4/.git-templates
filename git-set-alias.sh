@@ -51,6 +51,7 @@ add_source_line "${HOME}/.zshrc" "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
 create_alias sw ${GIT_TEMPLATES}/scripts/git-switch-branch.sh
 chmod a+x "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
 
+create_alias rmb ${GIT_TEMPLATES}/scripts/git-rm-branch.sh
 create_alias co checkout
 create_alias br ${GIT_TEMPLATES}/scripts/print-all-branch.sh
 create_alias ci 'commit -m'
