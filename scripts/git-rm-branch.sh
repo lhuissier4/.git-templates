@@ -24,12 +24,20 @@ if [ "$(git symbolic-ref --short -q HEAD)" = "$BRANCH" ]; then
   exit 1
 fi
 
+read -r -p "Supprimer la branche locale '$BRANCH' ? [Yn] " ANSWER
+case "$ANSWER" in
+  [nN]|[nN][oO]|[nN][oO][nN])
+    echo "Annulé."
+    exit 1
+    ;;
+esac
+
 if git branch -d "$BRANCH"; then
   exit 0
 fi
 
-read -r -p "Forcer la suppression de '$BRANCH' (non fusionnée) ? [yN] " ANSWER
-case "$ANSWER" in
+read -r -p "Forcer la suppression de '$BRANCH' (non fusionnée) ? [yN] " FORCE
+case "$FORCE" in
   [yY]|[yY][eE][sS]|[oO]|[oO][uU][iI])
     git branch -D "$BRANCH"
     ;;
