@@ -24,4 +24,5 @@ while IFS= read -r URL || [[ -n "$URL" ]]; do
   [[ -z "$URL" ]] && continue
   echo "Ouverture : $URL"
   xdg-open "$URL" >/dev/null 2>&1
+  sleep 0.5
 done < "$URL_FILE"
