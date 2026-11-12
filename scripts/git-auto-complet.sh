@@ -94,7 +94,7 @@ if [ -n "$ZSH_VERSION" ]; then
   }
 
   _git-autoci() {
-    if (( CURRENT == 3 )) && [[ "$PREFIX" != -* ]]; then
+    if [[ "$PREFIX" != -* && "$PREFIX" != ignore ]]; then
       local -a cmds=('ignore:ajoute les fichiers autoci au .gitignore')
       _describe -t commands 'commande autoci' cmds
     fi
