@@ -38,15 +38,18 @@ add_source_line() {
     if grep -qF "source ${script}" "$rc_file"; then
         return
     fi
-    printf '\n# Autocomplétion des branches pour git sw\nsource %s\n' "$script" >> "$rc_file"
+    if ! printf '\n# Autocomplétion des branches pour git sw\nsource %s\n' "$script" >> "$rc_file"; then
+        echo "Erreur : impossible d'ajouter la configuration dans $rc_file. Vérifiez les droits d'écriture." >&2
+        return 1
+    fi
     echo "Ajouté dans $rc_file : source ${script}"
 }
 
 remove_all_aliases
 
 # En fin de fichier, donc après compinit dans le .zshrc.
-add_source_line "${HOME}/.bashrc" "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
-add_source_line "${HOME}/.zshrc" "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
+add_source_line "${HOME}/.bashrc" "${GIT_TEMPLATES}/scripts/git-auto-complet.sh" || exit 1
+add_source_line "${HOME}/.zshrc" "${GIT_TEMPLATES}/scripts/git-auto-complet.sh" || exit 1
 
 create_alias sw ${GIT_TEMPLATES}/scripts/git-switch-branch.sh
 chmod a+x "${GIT_TEMPLATES}/scripts/git-auto-complet.sh"
