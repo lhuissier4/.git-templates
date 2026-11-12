@@ -93,6 +93,13 @@ if [ -n "$ZSH_VERSION" ]; then
     fi
   }
 
+  _git-autoci() {
+    if (( CURRENT == 3 )) && [[ "$PREFIX" != -* ]]; then
+      local -a cmds=('ignore:ajoute les fichiers autoci au .gitignore')
+      _describe -t commands 'commande autoci' cmds
+    fi
+  }
+
   # Nom reconnu par le _git de zsh pour la sous-commande `git rmb` : branches locales uniquement.
   _git-rmb() {
     local -a lonly both ldisp bdisp expl
@@ -119,6 +126,7 @@ if [ -n "$ZSH_VERSION" ]; then
     sw:'bascule sur une branche (locale ou distante)' \
     br:'liste les branches (all : locales et distantes)' \
     open:'ouvre le dépôt distant ou toutes les URL du projet' \
+    autoci:'configure les messages de commit (ignore : ajoute les fichiers au .gitignore)' \
     rmb:'supprime une branche locale'
   zstyle ':completion:*:gsw-*' group-name ''
   zstyle ':completion:*:gsw-local' list-colors '=*=33'
@@ -127,6 +135,7 @@ if [ -n "$ZSH_VERSION" ]; then
 
   if (( $+functions[compdef] )); then
     compdef _git-sw git-switch-branch.sh
+    compdef _git-autoci autoci
   fi
   return 0 2>/dev/null
 fi
@@ -221,4 +230,14 @@ _git_open() {
   fi
 }
 
+# Appelée par git-completion.bash pour `git autoci`.
+_git_autoci() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  COMPREPLY=()
+  if (( COMP_CWORD == 2 )) && [[ "ignore" == "$cur"* ]]; then
+    COMPREPLY=("ignore ")
+  fi
+}
+
 complete -o nospace -F _git_sw git-switch-branch.sh
+complete -o nospace -F _git_autoci auto-commit.sh

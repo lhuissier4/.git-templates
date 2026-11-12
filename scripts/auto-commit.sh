@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Usage: git autoci
+# Usage: git autoci [ignore]
 # Configure la génération automatique des messages de commit dans le projet
-# courant : instructions Copilot et settings VS Code.
+# courant : instructions Copilot et settings VS Code. `ignore` ajoute ces fichiers
+# au .gitignore du projet.
 
 set -euo pipefail
 GIT_TEMPLATES="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -17,6 +18,13 @@ COMMIT_INSTRUCTIONS_FILE="$GITHUB_DIR/git-commit-instructions.md"
 VSCODE_DIR=".vscode"
 VSCODE_SETTINGS_FILE="$VSCODE_DIR/settings.json"
 COPILOT_MAGIC_COMMIT_KEY="github.copilot.chat.commitMessageGeneration.instructions"
+GITIGNORE_FILE=".gitignore"
+GENERATED_FILES=("$COMMIT_INSTRUCTIONS_FILE" "$VSCODE_SETTINGS_FILE")
+
+if (( $# > 0 )) && { (( $# != 1 )) || [[ "$1" != "ignore" ]]; }; then
+    echo "Usage : git autoci [ignore]" >&2
+    exit 2
+fi
 
 if [[ ! -f "$COMMIT_INSTRUCTIONS_FILE" ]]; then
     mkdir -p "$GITHUB_DIR"
@@ -46,3 +54,15 @@ elif ! jq -e --arg key "$COPILOT_MAGIC_COMMIT_KEY" 'has($key)' "$VSCODE_SETTINGS
 fi
 
 echo "Commits automatiques configurés."
+
+if [[ "${1:-}" == "ignore" ]]; then
+    for file in "${GENERATED_FILES[@]}"; do
+        if ! grep -Fxq -- "$file" "$GITIGNORE_FILE" 2>/dev/null; then
+            if [[ -s "$GITIGNORE_FILE" && -n "$(tail -c 1 "$GITIGNORE_FILE")" ]]; then
+                printf '\n' >> "$GITIGNORE_FILE"
+            fi
+            printf '%s\n' "$file" >> "$GITIGNORE_FILE"
+            echo "Ajouté dans $GITIGNORE_FILE : $file"
+        fi
+    done
+fi

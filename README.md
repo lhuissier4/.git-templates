@@ -39,7 +39,7 @@ git config --global core.editor "nano"
 | `git open all` | `scripts/git-open-all.sh` | Ouvre chaque URL du fichier `.git-open-all` à la racine du projet. Le fichier est créé avec l'URL de `origin` si nécessaire et ajouté au `.gitignore`. |
 | `git sw <branche>` | `scripts/git-switch-branch.sh` | Bascule sur la branche : locale si elle existe, sinon la récupère depuis `origin`, sinon propose de la créer. |
 | `git hooks` | `scripts/git-hooks.sh` | À lancer à la racine d'un projet : crée le dossier `git-hooks`, y copie `commit-msg` et `pre-push`, configure `core.hooksPath` et ajoute la section correspondante au README du projet. |
-| `git autoci` | `scripts/auto-commit.sh` | Configure la génération automatique des messages de commit : copie `.github/git-commit-instructions.md` et déclare l'instruction Copilot dans `.vscode/settings.json` (nécessite `jq`). |
+| `git autoci [ignore]` | `scripts/auto-commit.sh` | Configure la génération automatique des messages de commit : copie `.github/git-commit-instructions.md` et déclare l'instruction Copilot dans `.vscode/settings.json` (nécessite `jq`). `git autoci ignore` ajoute ces deux fichiers au `.gitignore` du projet. |
 | `git kilo` | `scripts/git-kilo.sh` | Copie `kilo.jsonc` à la racine du projet et ajoute une section « Configuration Kilo » au README. |
 | `git cial` | `scripts/git-commit-amend-last-msg.sh` | Refait un `commit --amend` en réutilisant le message du dernier commit (utile pour inclure des fichiers indexés sans retaper le message). Les options supplémentaires sont transmises à `git commit`. |
 | `git lasts [n]` | `scripts/git-lasts-commit.sh` | Affiche les `n` derniers commits (5 par défaut). |
